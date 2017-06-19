@@ -15,6 +15,7 @@ revisions to compare between.
 
             option :f,  :from, 'branch to compare from', argument: :required
             option :t,  :to,   'branch to compare to', argument: :required
+            optional :keep_temp, 'keep temporary directories for debugging'
 
             run do |opts, args, cmd|
               require 'facter'
@@ -129,11 +130,15 @@ revisions to compare between.
                     logger.debug "Backing up modules to thread cache #{tempdir}"
                     FileUtils.mv("#{tempdir}/modules","#{r10k_cache_dir}/modules",:force => true)
 
-                    logger.debug "Removing temporary build cache"
-                    FileUtils.rm_r(tempdir)
+                    unless opts[:keep_temp]
+                      logger.debug "Removing temporary build cache"
+                      FileUtils.rm_r(tempdir)
+                    end
                   end
 
-                  FileUtils.rm_r(r10k_cache_dir)
+                  unless opts[:keep_temp]
+                    FileUtils.rm_r(r10k_cache_dir)
+                  end
                 end
               end
 
