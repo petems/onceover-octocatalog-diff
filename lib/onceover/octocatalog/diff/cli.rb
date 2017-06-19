@@ -15,7 +15,7 @@ revisions to compare between.
 
             option :f,  :from, 'branch to compare from', argument: :required
             option :t,  :to,   'branch to compare to', argument: :required
-            optional :keep_temp, 'keep temporary directories for debugging'
+            optional nil, :keep_temp, 'keep temporary directories for debugging'
 
             run do |opts, args, cmd|
               require 'facter'
